@@ -28,7 +28,7 @@ jobs:
         run: npm install --save-dev wait-on
 
       - name: Start React app in background
-        run: npm start &
+        run: nohup npm start > react-app.log 2>&1 &
         env:
           CI: false
       
@@ -36,7 +36,13 @@ jobs:
         run: |
           sleep 10
           lsof -i :3000 || echo "Puerto no ocupado"
-      
+
+      - name: Check React app logs
+        run: cat ./node_modules/.cache/react-scripts/start.log || echo "No logs found"
+
+      - name: Add delay before waiting
+        run: sleep 30
+
       - name: Wait for app to be ready
         run: npx wait-on http://localhost:3000 --timeout 60000
 
