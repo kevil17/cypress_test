@@ -17,8 +17,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "cypress:run": "cypress run --browser electron --headless",
-    "test:e2e": "start-server-and-test start http://localhost:3000 cypress:run"
+    "cypress:run": "cypress run --browser electron --headless --exit",
+    "test:e2e": "start-server-and-test start http://localhost:3000 'cypress:run && exit 0'"
   },
   "eslintConfig": {
     "extends": [
