@@ -20,6 +20,10 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Verifica procesos en ejecución
+        run: |
+          ps aux | grep node
+
       - name: Install wait-on
         run: npm install --save-dev wait-on
 
@@ -27,9 +31,14 @@ jobs:
         run: npm start &
         env:
           CI: false
-
+      
+      - name: Espera y revisa si el puerto 3000 está en uso
+        run: |
+          sleep 10
+          lsof -i :3000 || echo "Puerto no ocupado"
+      
       - name: Wait for app to be ready
-        run: npx wait-on http://localhost:3000 --timeout 30000
+        run: npx wait-on http://localhost:3000 --timeout 60000
 
       - name: Check if app is running
         run: curl -I http://localhost:3000 || echo "App not running"
