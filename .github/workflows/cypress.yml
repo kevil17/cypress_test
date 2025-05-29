@@ -19,22 +19,8 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-
+      
       - name: Run Cypress E2E tests
         run: npm run test:e2e
         env:
           CI: true
-
-      - name: Upload Cypress videos (optional)
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: cypress-videos
-          path: cypress/videos
-
-      - name: Upload Cypress screenshots (optional)
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: cypress-screenshots
-          path: cypress/screenshots
