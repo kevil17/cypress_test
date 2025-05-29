@@ -32,10 +32,8 @@ jobs:
         env:
           CI: false
       
-      - name: Espera y revisa si el puerto 3000 está en uso
-        run: |
-          sleep 10
-          lsof -i :3000 || echo "Puerto no ocupado"
+      - name: Verify port 3000
+        run: lsof -i :3000 || echo "Port 3000 not in use"
 
       - name: Check React app logs
         run: cat ./node_modules/.cache/react-scripts/start.log || echo "No logs found"
@@ -43,8 +41,11 @@ jobs:
       - name: Add delay before waiting
         run: sleep 30
 
+      - name: Verify dependencies
+        run: npm ls || echo "Dependency issues detected"
+
       - name: Wait for app to be ready
-        run: npx wait-on http://localhost:3000 --timeout 60000
+        run: npx wait-on http://localhost:3000 --timeout 120000
 
       - name: Check if app is running
         run: curl -I http://localhost:3000 || echo "App not running"
