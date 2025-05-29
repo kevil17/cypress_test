@@ -27,8 +27,8 @@ jobs:
       - name: Install wait-on
         run: npm install --save-dev wait-on
 
-      - name: Start React app in background
-        run: nohup npm start > react-app.log 2>&1 &
+      - name: Start React app
+        run: npm run start -- --port 3000
         env:
           CI: false
       
