@@ -44,4 +44,4 @@ jobs:
         run: curl -I http://localhost:3000 || echo "App not running"
 
       - name: Run Cypress tests
-        run: npx cypress run
+        run: npm run test:e2e
