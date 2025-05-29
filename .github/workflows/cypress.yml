@@ -20,13 +20,19 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Install wait-on
+        run: npm install --save-dev wait-on
+
       - name: Start React app in background
         run: npm start &
         env:
           CI: false
 
       - name: Wait for app to be ready
-        run: npx wait-on http://localhost:3000
+        run: npx wait-on http://localhost:3000 --timeout 30000
+
+      - name: Check if app is running
+        run: curl -I http://localhost:3000 || echo "App not running"
 
       - name: Run Cypress tests
         run: npx cypress run
