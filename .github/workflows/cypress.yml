@@ -27,7 +27,7 @@ jobs:
         working-directory: ./cypress-tests
 
       - name: Run Cypress create single asset test
-        run: npx cypress run --spec cypress/e2e/create_single_asset_with_set_cover_image.cy.js
+        run: npx cypress run --spec cypress/e2e/register_asset_listing_batch.cy.js
         working-directory: ./cypress-tests
         env:
           PROPERTY_RIGHTS_BASE_URL: "https://dev.propertyrights.dev/"
