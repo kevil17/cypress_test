@@ -1,26 +1,41 @@
-name: cypress-tests
+name: Build Dev
 
 on:
   push:
     branches: [main]
 
 jobs:
-  test:
+  cypress_tests:
+    name: Cypress E2E Tests
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Checkout Cypress repo
+        uses: actions/checkout@v4
+        with:
+          repository: edzlabs/propertyrights-e2e-tests
+          token: ${{ secrets.GH_PAT }}
+          path: cypress-tests
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
 
       - name: Install dependencies
-        run: npm install
-      
-      - name: Run Cypress E2E tests
-        run: npm run test:e2e
+        run: npm ci
+        working-directory: ./cypress-tests
+
+      - name: Run Cypress create single asset test
+        run: npx cypress run --spec cypress/e2e/create_single_assset.cy.js
+        working-directory: ./cypress-tests
         env:
-          CI: true
+          PROPERTY_RIGHTS_BASE_URL: "https://dev.propertyrights.dev/"
+          PROPERTY_RIGHTS_API_URL: "https://api-dev.propertyrights.dev/api"
+          RETRIEVER_BASE_URL: "https://dev.neuralretriever.dev/"
+          RETRIEVER_API_URL: "https://api-dev.propertyrights.dev/"
+          AUTH0_DOMAIN: "dev-dha1mcwk.us.auth0.com"
+          AUTH0_TEST_USERNAME: "juan@genso.com.bo"
+          AUTH0_TEST_PASSWORD: "Z3tonium"
+          NUMBER_OF_RETRIES: 5
+          TIME_TO_WAIT: 2000

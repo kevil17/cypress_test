@@ -38,3 +38,35 @@ e2e-tests:
           NUMBER_OF_RETRIES: 5
           TIME_TO_WAIT: 2000
           
+
+
+
+
+
+
+name: cypress-tests
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+      
+      - name: Run Cypress E2E tests
+        run: npm run test:e2e
+        env:
+          CI: true
